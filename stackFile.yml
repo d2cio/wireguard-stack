@@ -1,0 +1,31 @@
+version: '1.0'
+services:
+  - name: wireguard
+    type: docker
+    image: linuxserver/wireguard
+    version: latest
+    ports:
+      - 51820/udp
+    remoteAccess: true
+    env:
+      PUID: 1000
+      PGID: 1000
+      PEERS: null
+    comments:
+      env:
+        PEERS: Number of peers to create confs for
+    capabilities:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - directory: /config
+      - from: /lib/modules
+        directory: /lib/modules
+    deployTo:
+      - wireguard
+
+hosts:
+  - name: wireguard
+    requirements:
+      cores: 1
+      memory: 1
